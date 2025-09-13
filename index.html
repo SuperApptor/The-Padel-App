@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='url(%23logoGradient)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cdefs%3e%3clinearGradient id='logoGradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3e%3cstop offset='0%25' style='stop-color:%2362b1f3;stop-opacity:1' /%3e%3cstop offset='100%25' style='stop-color:%238E85FF;stop-opacity:1' /%3e%3c/linearGradient%3e%3c/defs%3e%3cpath d='M8 21v-6' /%3e%3cpath d='M11 21v-6' /%3e%3cpath d='M11 15H14.5A3.5 3.5 0 0 0 18 11.5A3.5 3.5 0 0 0 14.5 8H11' /%3e%3cpath d='M18.5 18.5A7.5 7.5 0 1 0 11 4' /%3e%3c/svg%3e" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Padel Partner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+      /* Fallback theme for previewing in a browser, mimicking Telegram's dark theme */
+      :root {
+        --tg-theme-bg-color: #18222d;
+        --tg-theme-secondary-bg-color: #232e3c;
+        --tg-theme-text-color: #ffffff;
+        --tg-theme-hint-color: #b1c3d5;
+        --tg-theme-link-color: #62b1f3;
+        --tg-theme-button-color: #3895d6;
+        --tg-theme-button-text-color: #ffffff;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--tg-theme-bg-color);
+        color: var(--tg-theme-text-color);
+      }
+      /* Custom Date Input */
+      .date-input-wrapper {
+        position: relative;
+      }
+      .date-input-wrapper:hover .date-input, .date-input-wrapper .date-input:focus {
+        border-color: var(--tg-theme-button-color);
+        box-shadow: 0 0 0 1px var(--tg-theme-button-color);
+      }
+      .date-input {
+        width: 100%;
+        background-color: var(--tg-theme-bg-color);
+        border: 1px solid rgba(177, 195, 213, 0.5); /* Matching border-[var(--tg-theme-hint-color)]/50 */
+        border-radius: 0.375rem; /* rounded-md */
+        padding: 0.5rem 0.75rem;
+        color: var(--tg-theme-text-color);
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding-right: 2.5rem; /* Space for icon */
+      }
+      .date-input::-webkit-calendar-picker-indicator {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        color: transparent;
+        background: transparent;
+        cursor: pointer;
+      }
+      .date-input-icon {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: var(--tg-theme-hint-color);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.17.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    <script>
+      // This script overrides the fallback theme with the user's actual Telegram theme if available.
+      try {
+        const tg = window.Telegram.WebApp;
+        if (tg && tg.themeParams) {
+          const root = document.documentElement;
+          const themeParams = {
+            'bg-color': tg.themeParams.bg_color,
+            'secondary-bg-color': tg.themeParams.secondary_bg_color,
+            'text-color': tg.themeParams.text_color,
+            'hint-color': tg.themeParams.hint_color,
+            'link-color': tg.themeParams.link_color,
+            'button-color': tg.themeParams.button_color,
+            'button-text-color': tg.themeParams.button_text_color,
+          };
+          for (const [key, value] of Object.entries(themeParams)) {
+            if (value) {
+                root.style.setProperty(`--tg-theme-${key}`, value);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn("Could not set Telegram theme variables. Using fallback for preview.", e);
+      }
+    </script>
+     <script>
+      // Dynamically load the Google Maps script
+      // It is expected that the GOOGLE_MAPS_API_KEY is available as a global variable or replaced by a build process.
+      // For this environment, we'll assume it's injected.
+      const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+      if (googleMapsApiKey) {
+        window.initMap = function() {
+          // This callback function is called by the Google Maps script once it's loaded.
+          // We fire a custom event that the React app can listen to.
+          window.dispatchEvent(new CustomEvent('google-maps-loaded'));
+        };
+
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places,geometry&callback=initMap`;
+        script.async = true;
+        document.head.appendChild(script);
+      } else {
+          console.warn("Google Maps API key is not configured. Map functionality will be disabled.");
+      }
+    </script>
+  </body>
+</html>

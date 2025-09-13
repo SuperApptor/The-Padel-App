@@ -1,0 +1,645 @@
+{
+  "common": {
+    "level": "Niveau",
+    "club": "Club",
+    "date": "Date",
+    "time": "Heure",
+    "levelRange": "Niveau recherché",
+    "visibility": "Visibilité",
+    "publicVisibility": "Public (ouvert à tous)",
+    "circleVisibility": "Cercle : {{name}}",
+    "min": "Min",
+    "max": "Max",
+    "next": "Suivant",
+    "back": "Retour",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "submit": "Valider",
+    "submitResult": "Valider le résultat",
+    "edit": "Modifier",
+    "manage": "Gérer",
+    "create": "Créer",
+    "invited": "Invité",
+    "invite": "Inviter",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "unknownClub": "Club Inconnu",
+    "ineligible": "Inéligible",
+    "approve": "Approuver",
+    "reject": "Rejeter"
+  },
+  "gender": {
+    "MALE": "Homme",
+    "FEMALE": "Femme"
+  },
+  "handedness": {
+    "RIGHT": "Droitier",
+    "LEFT": "Gaucher"
+  },
+  "side": {
+    "LEFT": "Gauche",
+    "RIGHT": "Droite",
+    "BOTH": "Sans préférence",
+    "playerOf": "Joueur de"
+  },
+  "availabilityType": {
+    "RECURRING": "Récurrente",
+    "DATE_RANGE": "Période définie",
+    "ONE_TIME": "Ponctuelle"
+  },
+  "days": {
+    "monday": "Lundi",
+    "tuesday": "Mardi",
+    "wednesday": "Mercredi",
+    "thursday": "Jeudi",
+    "friday": "Vendredi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche"
+  },
+  "matchResult": {
+    "VICTORY": "VICTOIRE",
+    "DEFEAT": "DÉFAITE"
+  },
+  "matchType": {
+    "MEN": "Hommes",
+    "WOMEN": "Femmes",
+    "MIXED": "Mixte",
+    "OPEN": "Ouvert"
+  },
+  "toasts": {
+    "profileUpdated": "Profil mis à jour avec succès !",
+    "invitesSent": "{{count}} invitation(s) envoyée(s).",
+    "matchCreated": "Match créé !",
+    "matchCreationError": "Erreur lors de la création du match.",
+    "matchCreationErrorApi": "Désolé, une erreur est survenue lors de la création du match. Veuillez réessayer.",
+    "friendRequestSent": "Demande d'ami envoyée à {{name}}",
+    "friendRequestAccepted": "Vous êtes maintenant ami avec {{name}}",
+    "friendRequestDeclined": "Demande de {{name}} refusée",
+    "circlesUpdated": "Cercles mis à jour !",
+    "favoriteAdded": "{{clubName}} ajouté aux favoris !",
+    "favoriteRemoved": "{{clubName}} retiré des favoris.",
+    "clubUpdated": "Informations de {{clubName}} mises à jour !",
+    "announcementPublished": "Annonce pour {{clubName}} publiée !",
+    "tournamentCreated": "Le tournoi '{{tournamentName}}' a été créé avec succès !",
+    "tournamentSubmitted": "Le tournoi '{{tournamentName}}' a été soumis pour approbation !",
+    "tournamentInviteSent": "Invitation envoyée à {{partnerName}} pour le tournoi !",
+    "tournamentRegisteredSolo": "Vous êtes inscrit et en recherche de partenaire !",
+    "partnerInviteSent": "Invitation envoyée à {{partnerName}} ! En attente de son approbation.",
+    "drawGenerated": "Le tableau pour {{categoryName}} a été généré !",
+    "tournamentScoreRecorded": "Score enregistré avec succès !",
+    "tournamentCanceled": "Le tournoi a été annulé.",
+    "matchInviteAccepted": "Invitation au match acceptée ! Vous participez.",
+    "matchInviteDeclined": "Invitation au match refusée.",
+    "matchJoined": "Vous avez rejoint le match !",
+    "matchCanceled": "Le match a été annulé.",
+    "playerAdded": "{{playerName}} a été ajouté au match.",
+    "organizerApplicationSent": "Votre demande pour devenir organisateur a été envoyée !",
+    "organizerRequestApproved": "Demande d'organisateur pour {{name}} approuvée.",
+    "organizerRequestRejected": "Demande d'organisateur pour {{name}} rejetée.",
+    "clubCreated": "Le club {{clubName}} a été créé avec succès !",
+    "adminAssigned": "{{adminName}} est maintenant l'administrateur de {{clubName}}.",
+    "tournamentApproved": "Le tournoi '{{tournamentName}}' a été approuvé et est maintenant public.",
+    "tournamentRejected": "Le tournoi '{{tournamentName}}' a été rejeté.",
+    "onboardingComplete": "Bienvenue ! Votre profil a été créé."
+  },
+  "mainTabs": {
+    "matches": "Matchs",
+    "home": "Accueil",
+    "tournaments": "Tournois",
+    "social": "Social",
+    "clubs": "Clubs"
+  },
+  "home": {
+    "welcome": "Bonjour, {{name}} !",
+    "welcomeSubtitle": "Prêt pour votre prochain match ?",
+    "nextMatch": "Votre prochain match",
+    "noUpcomingMatchTitle": "Aucun match programmé",
+    "noUpcomingMatchSubtitle": "Rejoignez un match ouvert ou proposez-en un !",
+    "openMatches": "Matchs Ouverts",
+    "myMatches": "Mes Matchs",
+    "findPlayers": "Trouver des joueurs",
+    "myHistory": "Voir l'historique",
+    "forYou": "Pour vous"
+  },
+  "matchesTabs": {
+    "upcoming": "Mes Matchs à venir",
+    "open": "Matchs Ouverts",
+    "available": "Joueurs disponibles",
+    "history": "Historique"
+  },
+  "socialTabs": {
+    "myFriends": "Mes Amis",
+    "myCircles": "Mes Cercles",
+    "requests": "Demandes",
+    "addFriends": "Ajouter"
+  },
+  "addFriend": {
+    "searchPlayersPlaceholder": "Rechercher un joueur par nom...",
+    "noPlayersFound": "Aucun joueur trouvé.",
+    "addFriend": "Ajouter",
+    "requestSent": "Demandé"
+  },
+  "proposeMatchButton": "Proposer un match",
+  "createMenu": {
+    "createMatch": "Créer un Match",
+    "createTournament": "Créer un Tournoi"
+  },
+  "footer": {
+    "poweredBy": "Propulsé par",
+    "onTelegram": "sur Telegram."
+  },
+  "matchList": {
+    "searchPlaceholder": "Rechercher par club, niveau...",
+    "noMatchesTitle": "Aucun match à venir pour vous",
+    "noMatchesSubtitle": "Rejoignez un match ou créez-en un nouveau !",
+    "noOpenMatchesTitle": "Aucun match ouvert trouvé",
+    "noOpenMatchesSubtitle": "Essayez d'ajuster votre recherche ou soyez le premier à proposer un match !"
+  },
+  "announcementsFeed": {
+    "title": "Actualités de vos Clubs Favoris",
+    "tournamentAnnouncementTitle": "Nouveau Tournoi"
+  },
+  "availabilityList": {
+    "searchPlaceholder": "Rechercher par joueur ou club...",
+    "noPlayersTitle": "Aucun joueur disponible",
+    "noPlayersSubtitle": "Soyez le premier à publier votre disponibilité !",
+    "filterByDate": "Filtrer par date",
+    "filterByTime": "Filtrer par heure",
+    "anyTime": "Toute heure",
+    "clearFilters": "Effacer"
+  },
+  "matchHistory": {
+    "noMatchesTitle": "Aucun match dans l'historique",
+    "noMatchesSubtitle": "Les matchs que vous avez joués apparaîtront ici."
+  },
+  "matchCard": {
+    "competitive": "Compétitif",
+    "openSlot": "Libre",
+    "joinMatch": "Rejoindre",
+    "invitePlayers": "Inviter des joueurs",
+    "matchFull": "Match complet",
+    "addFriendAria": "Ajouter {{name}} en ami",
+    "circleLabel": "Cercle :",
+    "invitation": "Vous êtes invité !",
+    "chooseYourSpot": "Choisissez votre place",
+    "levelMismatchError": "Votre niveau ({{userLevel}}) est en dehors de la fourchette requise ({{minLevel}} - {{maxLevel}}).",
+    "genderMismatchError": "Votre genre n'est pas éligible pour cette partie {{matchType}}.",
+    "cancelMatch": "Annuler",
+    "cancelConfirmation": "Êtes-vous sûr de vouloir annuler ce match ? Cette action est irréversible.",
+    "canceled": "Annulé",
+    "confirmed": "Confirmé",
+    "groupChatTooltip": "Chat du Match"
+  },
+  "clubCard": {
+    "addToFavorites": "Ajouter aux favoris",
+    "removeFromFavorites": "Retirer des favoris"
+  },
+  "whatsapp": {
+    "shareAriaLabel": "Partagez sur WhatsApp",
+    "shareMessage": "🔥 Match de Padel ouvert ! 🔥\n\nRejoins-nous pour une partie à {{clubName}}.\n\n🗓️ Date : {{date}}\n⏰ Heure : {{time}}\n📊 Niveau : {{levelMin}} - {{levelMax}}\n👥 Places restantes : {{openSlots}}\n\nPour rejoindre ou voir les détails, c'est par ici 👇\n{{link}}"
+  },
+  "availabilityCard": {
+    "availabilities": "Disponibilités",
+    "favoriteClubs": "Clubs favoris",
+    "lookingForLevel": "Recherche partenaires de niveau",
+    "contactAndPropose": "Contacter & Proposer un match",
+    "oneTimeFormat": "Le {{date}} • {{timeRange}}",
+    "dateRangeFormat": "{{days}} • {{timeRange}} (du {{startDate}} au {{endDate}})",
+    "addFriendTooltip": "Ajouter en ami",
+    "proposeMatchTooltip": "Proposer un match",
+    "contactTooltip": "Contacter sur Telegram"
+  },
+  "completedMatchCard": {
+    "recordScore": "Enregistrer le score"
+  },
+  "recordScoreModal": {
+    "title": "Enregistrer le score",
+    "subtitle": "Pour {{clubName}} du {{date}}",
+    "yourTeam": "Votre équipe",
+    "opponents": "Adversaires",
+    "finalScore": "Score final",
+    "yourScore": "Vous",
+    "opponentScore": "Eux",
+    "setLabel": "Set {{number}}",
+    "superTiebreakLabel": "Super Tie-break (10 pts)",
+    "proSetLabel": "Score du Set Pro",
+    "errors": {
+      "atLeastOneSet": "Veuillez entrer le score for au moins un set.",
+      "incompleteSet": "Veuillez compléter les scores pour chaque set.",
+      "invalidScore": "Veuillez entrer des nombres valides pour les scores.",
+      "noWinner": "Aucune équipe n'a gagné assez de sets. Veuillez vérifier les scores.",
+      "multipleWinners": "Le score est invalide. Vérifiez le nombre de sets gagnés.",
+      "unnecessarySet": "Le match était déjà gagné. Ce set n'est pas nécessaire.",
+      "decidingSetNeeded": "Le match est à égalité. Le score du set décisif est requis.",
+      "classic6GamesTB": "Score invalide pour le Set {{set}}. Un set classique se gagne à 6 jeux (avec 2 jeux d'écart) ou 7-5 / 7-6.",
+      "short4GamesTB": "Score invalide pour le Set {{set}}. Un set court se gagne à 4 jeux (avec 2 jeux d'écart) ou 5-4 / 5-3 (TB).",
+      "short4GamesNoTB": "Score invalide pour le Set {{set}}. Le set est gagné lorsqu'une équipe atteint 4 jeux.",
+      "short4Games2GamesDiff": "Score invalide pour le set final. Le set se gagne en atteignant 4 jeux avec 2 jeux d'écart (sans tie-break).",
+      "superTiebreak10Points": "Score de Super Tie-break invalide. Le gagnant doit avoir au moins 10 points et 2 points d'écart.",
+      "proSet9Games": "Score de Pro Set invalide. Le gagnant doit atteindre 9 jeux avec 2 jeux d'écart ou gagner le tie-break."
+    }
+  },
+  "createMatchModal": {
+    "titleStep1": "Proposer un match",
+    "titleStep2": "Inviter des joueurs",
+    "matchType": "Type de match",
+    "errors": {
+      "fillAllFields": "Veuillez remplir tous les champs.",
+      "timeMargin": "Le match doit être programmé au moins 1 heure à l'avance.",
+      "playerLevelMismatch": "Le niveau de {{playerName}} ({{playerLevel}}) est en dehors de la fourchette sélectionnée ({{minLevel}} - {{maxLevel}}). Veuillez ajuster le niveau du match ou votre sélection."
+    },
+    "suggestionsFound": "Nous avons trouvé {{count}} joueur(s) disponible(s) pour ce créneau. Invitez-les !",
+    "noSuggestions": "Aucun joueur ne correspond à ce créneau.",
+    "createMatchButton": "Créer le match ({{count}} invité(s))"
+  },
+  "invitePlayersModal": {
+    "title": "Inviter des joueurs",
+    "subtitle": "{{count}} joueur(s) trouvé(s) pour votre match à {{clubName}}.",
+    "noSuggestions": "Aucun joueur disponible correspondant aux critères de votre match.",
+    "sendInvitesButton": "Envoyer {{count}} invitation(s)",
+    "suggestionsTab": "Suggestions",
+    "friendsTab": "Amis",
+    "circlesTab": "Cercles",
+    "inviteAll": "Inviter le cercle",
+    "members": "{{count}} membres",
+    "levelMismatchTooltip": "Niveau {{playerLevel}} hors de la fourchette du match ({{minLevel}} - {{maxLevel}})."
+  },
+  "friendList": {
+    "noFriendsTitle": "Aucun ami pour le moment",
+    "noFriendsSubtitle": "Ajoutez des joueurs depuis les fiches de match ou de disponibilité !"
+  },
+  "friendProfileModal": {
+    "matchHistory": "Historique des matchs",
+    "eloEvolution": "Évolution ELO",
+    "notEnoughData": "Pas assez de données pour afficher l'évolution.",
+    "contactOnTelegram": "Contacter sur Telegram"
+  },
+  "friendRequestList": {
+    "noRequestsTitle": "Aucune demande d'ami en attente",
+    "noRequestsSubtitle": "Votre liste de demandes est vide."
+  },
+  "circleManager": {
+    "createCircle": "Créer un cercle",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce cercle ?",
+    "noCirclesTitle": "Aucun cercle créé",
+    "noCirclesSubtitle": "Créez votre premier cercle pour organiser des matchs privés !",
+    "memberCount": "{{count}} membre(s)"
+  },
+  "createCircleModal": {
+    "title": "Créer un cercle",
+    "nameLabel": "Nom du cercle",
+    "namePlaceholder": "Ex: Les Experts",
+    "colorLabel": "Couleur",
+    "colorAriaLabel": "Sélectionner la couleur {{color}}"
+  },
+  "editCircleModal": {
+    "title": "Gérer \"{{name}}\"",
+    "noFriends": "Vous n'avez aucun ami à ajouter."
+  },
+  "profileModal": {
+    "viewTitle": "Mon Profil",
+    "editTitle": "Modifier le profil",
+    "nonEditable": "non modifiable",
+    "namePlaceholder": "Nom complet",
+    "birthDateLabel": "Date de naissance",
+    "favoriteClubsLabel": "Clubs favoris",
+    "noFavoriteClubs": "Aucun club favori",
+    "ageLabel": "Âge",
+    "genderLabel": "Sexe",
+    "handLabel": "Main",
+    "sideLabel": "Côté",
+    "ageValue": "{{age}} ans",
+    "manageFavoritesInfo": "Gérez vos clubs favoris depuis l'onglet 'Clubs'.",
+    "becomeOrganizer": "Devenir Organisateur",
+    "becomeClubAdmin": "Devenir Admin de Club",
+    "organizerStatus": "Statut d'organisateur",
+    "organizerStatus_NONE": "Non organisateur",
+    "organizerStatus_APPROVED": "Approuvé",
+    "organizerStatus_REJECTED": "Rejeté",
+    "superAdminPanel": "Panel Super Admin"
+  },
+  "contactAdminModal": {
+    "organizer": {
+      "title": "Devenir Organisateur",
+      "description": "Pour devenir organisateur et pouvoir créer des tournois sur Padel Partner, je valide chaque profil manuellement. Cela garantit une communauté de confiance et des événements de qualité. Contacte-moi sur Telegram pour discuter de ton projet !"
+    },
+    "clubAdmin": {
+      "title": "Inscrire un Club",
+      "description": "Pour enregistrer votre club ou devenir administrateur d'un club existant, je procède à une vérification manuelle pour assurer la qualité de notre réseau. Contacte-moi sur Telegram pour que nous puissions en discuter et mettre en place votre espace club."
+    },
+    "cta": "Discuter sur Telegram"
+  },
+  "clubTab": {
+    "loadingMaps": "Chargement de la recherche et de la carte...",
+    "mapsUnavailableTitle": "Fonctionnalités de la carte indisponibles",
+    "mapsUnavailableSubtitle": "L'aperçu ne peut pas charger Google Maps car la clé API sécurisée n'est pas disponible ici. La carte et la recherche par lieu fonctionneront dans l'application finale.",
+    "listView": "Liste",
+    "mapView": "Carte"
+  },
+  "clubList": {
+    "noClubsTitle": "Aucun club trouvé",
+    "noClubsSubtitle": "Essayez d'ajuster votre recherche ou de vous déplacer sur la carte."
+  },
+  "clubDetailModal": {
+    "phone": "Téléphone",
+    "email": "Email",
+    "courtsTitle": "Nos Terrains ({{count}})",
+    "indoor": "Indoor",
+    "outdoor": "Outdoor",
+    "announcementsTitle": "Annonces",
+    "publishedOn": "Publié le {{date}}"
+  },
+  "clubSearch": {
+    "placeholder": "Nom de club, ville, adresse...",
+    "radiusLabel": "Rayon de recherche :",
+    "radiusValue": "{{value}} km"
+  },
+  "clubAdminModal": {
+    "title": "Gérer {{clubName}}",
+    "tabInfo": "Infos",
+    "tabCourts": "Terrains",
+    "tabAnnouncements": "Annonces",
+    "tabTournaments": "Tournois",
+    "createTournament": "Créer un Tournoi",
+    "noTournaments": "Aucun tournoi programmé pour ce club pour le moment.",
+    "clubName": "Nom du club",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "Email",
+    "imageUrl": "URL de l'image",
+    "courtName": "Nom du terrain",
+    "announcementPlaceholder": "Écrivez votre annonce ici... Elle sera envoyée à tous les joueurs ayant ce club en favori.",
+    "publishAnnouncement": "Publier l'annonce"
+  },
+  "createTournamentModal": {
+    "title": "Créer un tournoi",
+    "titleWithClub": "Créer un tournoi à {{clubName}}",
+    "submitForApproval": "Soumettre pour approbation",
+    "namePlaceholder": "Nom du tournoi (ex: P250 Open d'Été)",
+    "descriptionPlaceholder": "Description du tournoi, règlement, etc.",
+    "prizePlaceholder": "Dotation ou lots (ex: 500€, Matériel de Padel)",
+    "imageUrlPlaceholder": "URL de l'image",
+    "categoriesLabel": "Catégories",
+    "progressiveBracketsLabel": "Tableaux (ordonner du plus élevé au plus bas)",
+    "promotionsLabel": "Montées entre les tableaux",
+    "promotionFromTo": "De {{from}} à {{to}}",
+    "noPromotion": "Aucune montée",
+    "promote2Finalists": "Montée des 2 finalistes",
+    "promote4Semifinalists": "Montée des 4 demi-finalistes",
+    "categoryNamePlaceholder": "Nom de la catégorie (ex: P100 Hommes)",
+    "maxTeamsPlaceholder": "Équipes max",
+    "addCategory": "Ajouter une catégorie",
+    "matchFormatConfig": "Format des Matchs (par défaut)",
+    "finalMatchFormatConfig": "Format de la Finale",
+    "useFinalFormat": "Utiliser un format différent pour la finale ?",
+    "setsToWin": "Sets à Gagner",
+    "regularSetFormat": "Format des Sets",
+    "finalSetFormat": "Format du Dernier Set",
+    "pointSystemLabel": "Système de points",
+    "errors": {
+      "datesInvalid": "La date de fin ne peut pas être antérieure à la date de début.",
+      "noCategories": "Veuillez ajouter au moins une catégorie.",
+      "incompleteCategory": "Veuillez remplir le nom et le nombre d'équipes pour toutes les catégories."
+    }
+  },
+  "tournamentTab": {
+    "title": "Tournois",
+    "noTournamentsTitle": "Aucun tournoi trouvé",
+    "noTournamentsSubtitle": "Consultez une autre catégorie ou revenez plus tard."
+  },
+  "tournamentSubTabs": {
+    "current": "En cours",
+    "upcoming": "À venir",
+    "past": "Événements passés"
+  },
+  "tournamentCard": {
+    "details": "Voir les détails",
+    "registered": "équipes",
+    "format": "Format",
+    "prize": "Dotation",
+    "statusConfirmed": "Inscrit",
+    "statusLooking": "Recherche partenaire",
+    "statusPending": "En attente",
+    "statusCanceled": "Annulé",
+    "statusPendingApproval": "En attente d'approbation"
+  },
+  "tournamentFormat": {
+    "DIRECT_ELIMINATION": "Élimination Directe",
+    "POULES_THEN_ELIMINATION": "Poules + Tableau Final",
+    "MULTI_BRACKET": "Multi-Chances",
+    "PROGRESSIVE_MULTI_BRACKET": "Tableaux Progressifs"
+  },
+  "tournamentDetailModal": {
+    "description": "Description",
+    "categories": "Catégories / Tableaux",
+    "teams": "équipes",
+    "registerButton": "S'inscrire",
+    "registeredButton": "Inscrit",
+    "findPartnerButton": "Trouver un partenaire",
+    "invitationSentButton": "Invitation envoyée",
+    "registeredPlayers": "Joueurs Inscrits",
+    "confirmedTeams": "Équipes Confirmées",
+    "noConfirmedTeams": "Aucune équipe confirmée pour le moment.",
+    "soloPlayers": "Joueurs en recherche de partenaire",
+    "noSoloPlayers": "Aucun joueur ne recherche de partenaire dans cette catégorie.",
+    "tabInfo": "Infos",
+    "tabDraw": "Tableau",
+    "generateDraw": "Générer le tableau",
+    "drawNotGenerated": "Le tableau n'a pas encore été généré.",
+    "drawGenerationNotFull": "La catégorie doit être complète ({{registeredCount}}/{{maxTeams}} équipes) pour pouvoir générer le tableau.",
+    "numSeeds": "Nombre de têtes de série",
+    "adminActions": "Actions d'Administration",
+    "incompleteTournamentWarning": "Ce tournoi a dépassé sa date de début mais n'est pas complet. Veuillez choisir une action.",
+    "forceStartButton": "Forcer le lancement (avec Exempts)",
+    "cancelTournamentButton": "Annuler le Tournoi",
+    "status": "Statut",
+    "organizer": "Organisateur",
+    "approvalPending": "Ce tournoi est en attente d'approbation par l'administrateur du club."
+  },
+  "tournamentBracket": {
+    "bye": "EXEMPT",
+    "tbd": "À DÉFINIR",
+    "round": "Tour {{round}}",
+    "final": "Finale",
+    "semifinal": "Demi-Finale",
+    "quarterfinal": "Quart de Finale"
+  },
+  "tournamentScoreModal": {
+    "title": "Enregistrer le Score",
+    "recordScoreFor": "Enregistrer le score pour le match :",
+    "winner": "Gagnant"
+  },
+  "registerTournamentModal": {
+    "title": "S'inscrire en {{categoryName}}",
+    "withPartner": "Avec un partenaire",
+    "alone": "Seul",
+    "searchPlaceholder": "Rechercher un ami...",
+    "noFriends": "Vous n'avez pas d'amis à inviter. Vous pouvez en ajouter depuis les fiches de match ou de disponibilité.",
+    "aloneDescription": "Vous serez ajouté à la liste des joueurs recherchant un partenaire pour cette catégorie.",
+    "sendInvitation": "Envoyer l'invitation",
+    "confirmRegistration": "Confirmer l'inscription",
+    "alreadyRegistered": "Vous êtes déjà inscrit à ce tournoi."
+  },
+  "findPartnerModal": {
+    "title": "Trouver un partenaire pour {{categoryName}}",
+    "subtitle": "{{count}} joueur(s) en recherche de partenaire.",
+    "noPlayers": "Aucun autre joueur ne recherche de partenaire dans cette catégorie pour le moment.",
+    "invitationSent": "Invitation envoyée"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotificationsTitle": "Tout est à jour !",
+    "noNotificationsSubtitle": "Vous n'avez aucune nouvelle notification.",
+    "matchConfirmed": "Votre match à {{clubName}} le {{date}} est confirmé ! Tous les joueurs sont prêts.",
+    "organizerRequest": "{{name}} souhaite devenir organisateur de tournois.",
+    "tournamentApprovalRequest": "{{organizerName}} a soumis un nouveau tournoi '{{tournamentName}}' pour approbation dans votre club.",
+    "organizerStatusUpdate_APPROVED": "Félicitations ! Votre demande pour devenir organisateur a été approuvée.",
+    "organizerStatusUpdate_REJECTED": "Votre demande pour devenir organisateur a été rejetée."
+  },
+  "time": {
+    "yearsAgo": "Il y a {{count}} an(s)",
+    "monthsAgo": "Il y a {{count}} mois",
+    "daysAgo": "Il y a {{count}} jour(s)",
+    "hoursAgo": "Il y a {{count}}h",
+    "minutesAgo": "Il y a {{count}}m",
+    "justNow": "À l'instant"
+  },
+  "addPlayerModal": {
+    "title": "Ajouter un joueur",
+    "findPlayerTab": "Trouver un joueur",
+    "addGuestTab": "Ajouter un invité",
+    "searchPlaceholder": "Rechercher par nom de joueur...",
+    "noResults": "Aucun joueur ne correspond à votre recherche.",
+    "levelWarning": "Attention : Le niveau de ce joueur ({{playerLevel}}) est en dehors de la fourchette du match ({{minLevel}} - {{maxLevel}}).",
+    "guestNameLabel": "Nom de l'invité",
+    "guestNamePlaceholder": "ex: Jean Dupont",
+    "guestLevelLabel": "Niveau de l'invité",
+    "addPlayerButton": "Ajouter le joueur",
+    "forceAddButton": "Ajouter quand même"
+  },
+  "superAdminModal": {
+    "title": "Panel Super Admin",
+    "tabs": {
+      "clubs": "Gérer les Clubs",
+      "organizers": "Demandes Organisateurs",
+      "users": "Tous les Utilisateurs"
+    },
+    "createClub": "Créer un Nouveau Club",
+    "clubNamePlaceholder": "Nom du club",
+    "assignAdmin": "Assigner l'Admin",
+    "searchUserPlaceholder": "Rechercher un utilisateur...",
+    "noAdmin": "Aucun admin assigné",
+    "noRequests": "Aucune demande d'organisateur en attente.",
+    "noUsers": "Aucun utilisateur trouvé.",
+    "roleAdmin": "Admin : {{clubName}}",
+    "roleOrganizer": "Organisateur"
+  },
+  "onboarding": {
+    "mainTitle": "Bienvenue sur Padel Partner",
+    "emailPlaceholder": "Votre Email",
+    "birthDateLabel": "Date de naissance",
+    "cityLabel": "Votre Ville",
+    "cityPlaceholder": "ex: Paris, France",
+    "errors": {
+      "fillAllFields": "Veuillez remplir tous les champs.",
+      "invalidEmail": "Veuillez entrer une adresse email valide.",
+      "cityRequired": "Veuillez sélectionner votre ville parmi les suggestions.",
+      "cityInputRequired": "Veuillez renseigner votre ville."
+    },
+    "step0": {
+      "title": "Créez votre Profil",
+      "subtitle": "Commençons par les bases pour vous amener sur le terrain."
+    },
+    "step1": {
+      "q1": {
+        "title": "Depuis quand jouez-vous au Padel ?",
+        "options": {
+          "0": "Moins d'un an, je débute à peine.",
+          "1": "1 à 2 ans, je joue régulièrement.",
+          "2": "2 à 5 ans, j'ai une bonne expérience.",
+          "3": "Plus de 5 ans, le Padel est ma deuxième maison."
+        }
+      },
+      "q2": {
+        "title": "Quelle est la régularité de vos coups droits et revers en fond de court ?",
+        "options": {
+          "0": "Irrégulière, je rate encore beaucoup de coups faciles.",
+          "1": "Assez régulière, j'arrive à maintenir la balle en jeu.",
+          "2": "Très régulière, je peux contrôler la direction et la profondeur.",
+          "3": "Je suis un mur, je peux varier les effets et la vitesse à volonté."
+        }
+      },
+      "q3": {
+        "title": "Comment est votre jeu à la volée au filet ?",
+        "options": {
+          "0": "J'apprends encore, j'ai du mal avec les balles rapides.",
+          "1": "Je suis à l'aise, je peux bloquer et jouer des volées simples.",
+          "2": "Je suis agressif(ve), je peux jouer des volées gagnantes et contrôler le point.",
+          "3": "Je maîtrise les volées bloquées, les amorties et les volées d'attaque profondes."
+        }
+      },
+      "q4": {
+        "title": "Et votre Bandeja ou Vibora ?",
+        "options": {
+          "0": "Bande-quoi ? Je ne connais pas ces coups.",
+          "1": "Je peux les frapper, mais pas toujours de manière constante.",
+          "2": "C'est un coup fiable pour moi pour défendre et attaquer.",
+          "3": "Je peux alterner entre les deux et les utiliser pour construire le point ou le finir."
+        }
+      },
+      "q5": {
+        "title": "Et concernant les smashs (Par 3, Par 4) ?",
+        "options": {
+          "0": "Je smashe fort tout droit, mais je ne sors pas souvent la balle.",
+          "1": "J'arrive à sortir la balle en Par 3 de temps en temps.",
+          "2": "Le Par 3 est un coup régulier, et je tente parfois le Par 4.",
+          "3": "Je maîtrise le Par 3 et le Par 4 et je sais quand les utiliser."
+        }
+      },
+      "q6": {
+        "title": "Êtes-vous à l'aise pour jouer avec les vitres ?",
+        "options": {
+          "0": "J'essaie de l'éviter, je préfère frapper la balle avant qu'elle ne touche la vitre.",
+          "1": "Je peux renvoyer la balle après la vitre, mais sans beaucoup de contrôle.",
+          "2": "J'utilise les vitres de manière stratégique, en défense comme en attaque.",
+          "3": "La double-vitre est mon amie, je l'utilise pour contre-attaquer efficacement."
+        }
+      }
+    },
+    "step2": {
+      "title": "Enfin, comment décririez-vous votre condition physique et athlétique ?",
+      "options": {
+        "0": "Pas très bonne",
+        "1": "Correcte",
+        "2": "Bonne, je pratique d'autres sports et j'ai une bonne endurance.",
+        "3": "Excellente, je suis très athlétique et rapide sur le terrain."
+      }
+    },
+    "step3": {
+      "title": "Voici votre niveau estimé !",
+      "subtitle": "C'est votre point de départ. Votre niveau évoluera avec chaque match que vous jouerez.",
+      "levelDescription": "Basé sur vos réponses",
+      "cta": "C'est parti !"
+    }
+  },
+  "guidance": {
+    "dismiss": "J'ai compris !",
+    "home": {
+      "title": "Bienvenue sur votre Accueil !",
+      "text": "C'est votre tableau de bord. Visualisez votre prochain match en un clin d'œil et utilisez les boutons ci-dessous pour trouver rapidement des parties ouvertes, des joueurs disponibles ou consulter votre historique."
+    },
+    "clubs": {
+      "title": "Trouvez les clubs près de chez vous",
+      "text": "Voici les clubs proches de votre localisation. Cliquez sur l'étoile d'un club pour l'ajouter à vos favoris. Vous recevrez leurs actualités et propositions de match directement sur votre page d'accueil !"
+    },
+    "social": {
+      "title": "Connectez-vous avec d'autres joueurs",
+      "text": "Gérez vos amis, organisez-les en 'Cercles' privés pour des matchs exclusifs, et traitez vos demandes d'amis, tout cela depuis cet onglet."
+    },
+    "tournaments": {
+      "title": "Participez à des Tournois",
+      "text": "Ici, vous pouvez trouver les tournois en cours, à venir et passés. Sélectionnez-en un pour voir les détails, consulter le tableau et vous inscrire !"
+    }
+  }
+}

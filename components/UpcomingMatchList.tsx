@@ -1,0 +1,90 @@
+
+import React, { useState, useMemo } from 'react';
+// Fix: Import Club type
+import { Match, PlayerProfile, Club } from '../types';
+import MatchCard from './MatchCard';
+import { SearchIcon } from './icons/SearchIcon';
+
+interface UpcomingMatchListProps {
+  matches: Match[];
+  isLoading: boolean;
+  userProfile: PlayerProfile;
+  onInvite: (match: Match) => void;
+  // Fix: Add onAddFriend to props to resolve error when calling MatchCard.
+  onAddFriend: (friendId: string) => void;
+  // Fix: Add clubs to resolve club names and pass to children
+  clubs: Club[];
+}
+
+const SkeletonCard: React.FC = () => (
+    <div className="bg-[var(--tg-theme-secondary-bg-color)] p-5 rounded-xl border border-[var(--tg-theme-hint-color)]/20 shadow-lg animate-pulse">
+      <div className="flex justify-between items-start">
+        <div className="space-y-2">
+            <div className="h-5 bg-[var(--tg-theme-hint-color)]/30 rounded w-32"></div>
+            <div className="h-4 bg-[var(--tg-theme-hint-color)]/30 rounded w-24"></div>
+        </div>
+        <div className="h-6 bg-[var(--tg-theme-hint-color)]/30 rounded-full w-20"></div>
+      </div>
+      <div className="space-y-3 mt-4">
+        <div className="h-3 bg-[var(--tg-theme-hint-color)]/30 rounded"></div>
+        <div className="h-3 bg-[var(--tg-theme-hint-color)]/30 rounded w-5/6"></div>
+      </div>
+       <div className="mt-5 h-10 bg-[var(--tg-theme-hint-color)]/30 rounded-md w-full"></div>
+    </div>
+);
+
+
+const UpcomingMatchList: React.FC<UpcomingMatchListProps> = ({ matches, isLoading, userProfile, onInvite, onAddFriend, clubs }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredMatches = useMemo(() => {
+        return matches.filter(match => {
+            const search = searchTerm.toLowerCase();
+            const levelMatch = !isNaN(parseFloat(search)) && parseFloat(search) >= match.levelMin && parseFloat(search) <= match.levelMax;
+            // Fix: Use club name for searching instead of non-existent match.city
+            const club = clubs.find(c => c.id === match.clubId);
+            return club?.name.toLowerCase().includes(search) || levelMatch;
+        });
+    }, [matches, searchTerm, clubs]);
+
+
+  return (
+    <div>
+       <div className="relative mb-6">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <SearchIcon className="h-5 w-5 text-[var(--tg-theme-hint-color)]"/>
+            </div>
+            <input
+            type="text"
+            placeholder="Rechercher par ville, niveau..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full bg-[var(--tg-theme-secondary-bg-color)] border border-[var(--tg-theme-hint-color)]/50 rounded-md py-2 pl-10 pr-4 text-[var(--tg-theme-text-color)] placeholder:text-[var(--tg-theme-hint-color)] focus:ring-2 focus:ring-[var(--tg-theme-button-color)] focus:outline-none transition"
+            />
+        </div>
+
+      {isLoading && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <SkeletonCard />
+            <SkeletonCard />
+        </div>
+      )}
+      {!isLoading && filteredMatches.length === 0 && (
+         <div className="text-center py-16 bg-[var(--tg-theme-secondary-bg-color)] rounded-xl border border-[var(--tg-theme-hint-color)]/20">
+            <h3 className="text-xl font-semibold text-[var(--tg-theme-text-color)]">Aucun match à venir</h3>
+            <p className="text-[var(--tg-theme-hint-color)] mt-2">Essayez d'ajuster votre recherche ou proposez un nouveau match !</p>
+        </div>
+      )}
+      {!isLoading && filteredMatches.length > 0 && (
+         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {filteredMatches.map((match) => (
+              // Fix: Pass 'clubs' prop to MatchCard
+              <MatchCard key={match.id} match={match} userProfile={userProfile} onInvite={onInvite} circles={userProfile.circles} onAddFriend={onAddFriend} clubs={clubs} />
+            ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UpcomingMatchList;

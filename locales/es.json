@@ -1,0 +1,250 @@
+
+{
+  "common": {
+    "level": "Nivel",
+    "club": "Club",
+    "date": "Fecha",
+    "time": "Hora",
+    "levelRange": "Rango de nivel",
+    "visibility": "Visibilidad",
+    "publicVisibility": "Público (abierto a todos)",
+    "circleVisibility": "Círculo: {{name}}",
+    "min": "Mín",
+    "max": "Máx",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "submit": "Enviar",
+    "submitResult": "Enviar Resultado",
+    "edit": "Editar",
+    "manage": "Gestionar",
+    "create": "Crear",
+    "invited": "Invitado",
+    "invite": "Invitar",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "unknownClub": "Club Desconocido",
+    "ineligible": "No elegible",
+    "approve": "Aprobar",
+    "reject": "Rechazar"
+  },
+  "gender": {
+    "MALE": "Hombre",
+    "FEMALE": "Mujer"
+  },
+  "handedness": {
+    "RIGHT": "Diestro",
+    "LEFT": "Zurdo"
+  },
+  "side": {
+    "LEFT": "Izquierda",
+    "RIGHT": "Derecha",
+    "BOTH": "Indiferente",
+    "playerOf": "Jugador de"
+  },
+  "availabilityType": {
+    "RECURRING": "Recurrente",
+    "DATE_RANGE": "Rango de Fechas",
+    "ONE_TIME": "Una Vez"
+  },
+  "days": {
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miércoles",
+    "thursday": "Jueves",
+    "friday": "Viernes",
+    "saturday": "Sábado",
+    "sunday": "Domingo"
+  },
+  "matchResult": {
+    "VICTORY": "VICTORIA",
+    "DEFEAT": "DERROTA"
+  },
+  "matchType": {
+    "MEN": "Masculino",
+    "WOMEN": "Femenino",
+    "MIXED": "Mixto",
+    "OPEN": "Abierto"
+  },
+  "toasts": {
+    "profileUpdated": "¡Perfil actualizado con éxito!",
+    "invitesSent": "{{count}} invitación(es) enviada(s).",
+    "matchCreated": "¡Partido creado!",
+    "matchCreationError": "Error al crear el partido.",
+    "matchCreationErrorApi": "Lo sentimos, ocurrió un error al crear el partido. Por favor, inténtalo de nuevo.",
+    "friendRequestSent": "Solicitud de amistad enviada a {{name}}",
+    "friendRequestAccepted": "Ahora eres amigo de {{name}}",
+    "friendRequestDeclined": "Solicitud de {{name}} rechazada",
+    "circlesUpdated": "¡Círculos actualizados!",
+    "favoriteAdded": "¡{{clubName}} añadido a favoritos!",
+    "favoriteRemoved": "{{clubName}} eliminado de favoritos.",
+    "clubUpdated": "¡Información de {{clubName}} actualizada!",
+    "announcementPublished": "¡Anuncio para {{clubName}} publicado!",
+    "tournamentCreated": "¡El torneo '{{tournamentName}}' ha sido creado con éxito!",
+    "tournamentSubmitted": "¡El torneo '{{tournamentName}}' ha sido enviado para su aprobación!",
+    "tournamentInviteSent": "¡Invitación enviada a {{partnerName}} para el torneo!",
+    "tournamentRegisteredSolo": "¡Estás inscrito y buscando pareja!",
+    "partnerInviteSent": "¡Invitación enviada a {{partnerName}}! Esperando su aprobación.",
+    "drawGenerated": "¡El cuadro para {{categoryName}} ha sido generado!",
+    "tournamentScoreRecorded": "¡Resultado guardado con éxito!",
+    "tournamentCanceled": "El torneo ha sido cancelado.",
+    "matchInviteAccepted": "¡Invitación al partido aceptada! Estás dentro.",
+    "matchInviteDeclined": "Invitación al partido rechazada.",
+    "matchJoined": "¡Te has unido al partido!",
+    "matchCanceled": "El partido ha sido cancelado.",
+    "playerAdded": "{{playerName}} ha sido añadido al partido.",
+    "organizerApplicationSent": "¡Tu solicitud para ser organizador ha sido enviada!",
+    "organizerRequestApproved": "Solicitud de organizador para {{name}} aprobada.",
+    "organizerRequestRejected": "Solicitud de organizador para {{name}} rechazada.",
+    "clubCreated": "¡El club {{clubName}} ha sido creado con éxito!",
+    "adminAssigned": "{{adminName}} es ahora el administrador de {{clubName}}.",
+    "tournamentApproved": "El torneo '{{tournamentName}}' ha sido aprobado y ahora es público.",
+    "tournamentRejected": "El torneo '{{tournamentName}}' ha sido rechazado.",
+    "onboardingComplete": "¡Bienvenido! Tu perfil ha sido creado."
+  },
+  "mainTabs": {
+    "home": "Inicio",
+    "tournaments": "Torneos",
+    "social": "Social",
+    "clubs": "Clubes"
+  },
+  "home": {
+    "welcome": "¡Hola, {{name}}!",
+    "welcomeSubtitle": "¿Listo para tu próximo partido?",
+    "nextMatch": "Tu Próximo Partido",
+    "noUpcomingMatchTitle": "Sin partidos programados",
+    "noUpcomingMatchSubtitle": "¡Únete a un partido abierto o propón uno!",
+    "openMatches": "Partidos Abiertos",
+    "myMatches": "Mis Partidos",
+    "findPlayers": "Buscar Jugadores",
+    "myHistory": "Ver Historial",
+    "forYou": "Para Ti"
+  },
+  "socialTabs": {
+    "myFriends": "Mis Amigos",
+    "myCircles": "Mis Círculos",
+    "requests": "Solicitudes",
+    "addFriends": "Añadir"
+  },
+  "matchList": {
+    "searchPlaceholder": "Buscar por club, nivel...",
+    "noMatchesTitle": "No tienes próximos partidos",
+    "noMatchesSubtitle": "¡Únete a un partido o crea uno nuevo!",
+    "noOpenMatchesTitle": "No se encontraron partidos abiertos",
+    "noOpenMatchesSubtitle": "¡Intenta ajustar tu búsqueda o sé el primero en proponer un partido!"
+  },
+  "announcementsFeed": {
+    "title": "Noticias de tus Clubes Favoritos",
+    "tournamentAnnouncementTitle": "Nuevo Torneo"
+  },
+  "matchHistory": {
+    "noMatchesTitle": "No hay partidos en el historial",
+    "noMatchesSubtitle": "Los partidos que hayas jugado aparecerán aquí."
+  },
+  "matchCard": {
+    "competitive": "Competitivo",
+    "openSlot": "Libre",
+    "joinMatch": "Unirse",
+    "invitePlayers": "Invitar jugadores",
+    "matchFull": "Partido completo",
+    "addFriendAria": "Añadir a {{name}} como amigo",
+    "circleLabel": "Círculo:",
+    "invitation": "¡Estás invitado!",
+    "chooseYourSpot": "Elige tu sitio",
+    "levelMismatchError": "Tu nivel ({{userLevel}}) está fuera del rango requerido ({{minLevel}} - {{maxLevel}}).",
+    "genderMismatchError": "Tu género no es elegible para este partido {{matchType}}.",
+    "cancelMatch": "Cancelar",
+    "cancelConfirmation": "¿Seguro que quieres cancelar este partido? Esta acción es irreversible.",
+    "canceled": "Cancelado",
+    "confirmed": "Confirmado",
+    "groupChatTooltip": "Chat del Partido"
+  },
+  "clubDetailModal": {
+    "phone": "Teléfono",
+    "email": "Email",
+    "courtsTitle": "Nuestras Pistas ({{count}})",
+    "indoor": "Interior",
+    "outdoor": "Exterior",
+    "announcementsTitle": "Anuncios",
+    "publishedOn": "Publicado el {{date}}",
+    "openingHours": "Horario de Apertura"
+  },
+  "clubAdminModal": {
+    "title": "Gestionar {{clubName}}",
+    "tabInfo": "Info",
+    "tabCourts": "Pistas",
+    "tabHours": "Horario",
+    "tabAnnouncements": "Anuncios",
+    "tabTournaments": "Torneos",
+    "createTournament": "Crear Torneo",
+    "noTournaments": "Aún no hay torneos programados para este club.",
+    "clubName": "Nombre del club",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Email",
+    "imageUrl": "URL de la imagen",
+    "courtName": "Nombre de la pista",
+    "announcementPlaceholder": "Escribe tu anuncio aquí... Se enviará a todos los jugadores que tengan este club como favorito.",
+    "publishAnnouncement": "Publicar Anuncio",
+    "closed": "Cerrado"
+  },
+    "adminEditProfileModal": {
+    "title": "Editar Perfil: {{name}}"
+  },
+  "onboarding": {
+    "mainTitle": "Bienvenido a Padel Partner",
+    "emailPlaceholder": "Tu Email",
+    "birthDateLabel": "Fecha de nacimiento",
+    "cityLabel": "Tu Ciudad",
+    "cityPlaceholder": "ej: Madrid, España",
+    "errors": {
+        "fillAllFields": "Por favor, rellena todos los campos.",
+        "invalidEmail": "Por favor, introduce un email válido.",
+        "cityRequired": "Por favor, selecciona tu ciudad de las sugerencias.",
+        "cityInputRequired": "Por favor, introduce tu ciudad."
+    },
+    "step0": {
+        "title": "Crea tu Perfil",
+        "subtitle": "Empecemos con lo básico para llevarte a la pista."
+    },
+    "step1": {
+        "q1": { "title": "¿Cuánto tiempo llevas jugando al pádel?", "options": { "0": "Menos de un año, estoy empezando.", "1": "1 a 2 años, juego regularmente.", "2": "2 a 5 años, tengo buena experiencia.", "3": "Más de 5 años, el pádel es mi segunda casa." } },
+        "q2": { "title": "¿Qué tan consistentes son tus derechas y reveses desde el fondo de la pista?", "options": { "0": "Inconsistente, todavía fallo muchos golpes fáciles.", "1": "Bastante consistente, puedo mantener la bola en juego.", "2": "Muy consistente, puedo controlar la dirección y la profundidad.", "3": "Soy un muro, puedo variar los efectos y la velocidad a voluntad." } },
+        "q3": { "title": "¿Cómo es tu juego de volea en la red?", "options": { "0": "Todavía estoy aprendiendo, me cuestan las bolas rápidas.", "1": "Me siento cómodo, puedo bloquear y jugar voleas básicas.", "2": "Soy agresivo/a, puedo jugar voleas ganadoras y controlar el punto.", "3": "Domino las voleas de bloqueo, las dejadas y las voleas de ataque profundas." } },
+        "q4": { "title": "¿Y tu Bandeja o Víbora?", "options": { "0": "¿Bande-qué? No conozco esos golpes.", "1": "Puedo golpearlas, pero no siempre de forma consistente.", "2": "Es un golpe fiable para mí para defender y atacar.", "3": "Puedo alternar entre ambas y usarlas para construir el punto o terminarlo." } },
+        "q5": { "title": "¿Y tus remates (Por 3, Por 4)?", "options": { "0": "Remato fuerte y recto, pero no suelo sacar la bola.", "1": "Puedo sacar la bola por 3 de vez en cuando.", "2": "El por 3 es un golpe consistente para mí, y a veces intento el por 4.", "3": "Domino tanto el por 3 como el por 4 y sé cuándo usarlos." } },
+        "q6": { "title": "¿Qué tan cómodo te sientes jugando con las paredes?", "options": { "0": "Intento evitarlo, prefiero golpear la bola antes de que toque la pared.", "1": "Puedo devolver la bola después de la pared, pero sin mucho control.", "2": "Uso las paredes estratégicamente, tanto en defensa como en ataque.", "3": "La doble pared es mi amiga, la uso para contraatacar eficazmente." } }
+    },
+    "step2": {
+        "title": "Finalmente, ¿cómo describirías tu condición física y atlética?",
+        "options": { "0": "No muy buena", "1": "Correcta", "2": "Buena, practico otros deportes y tengo buena resistencia.", "3": "Excelente, soy muy atlético/a y rápido/a en la pista." }
+    },
+    "step3": {
+        "title": "¡Este es tu nivel estimado!",
+        "subtitle": "Este es tu punto de partida. Tu nivel evolucionará con cada partido que juegues.",
+        "levelDescription": "Basado en tus respuestas",
+        "cta": "¡Vamos!"
+    }
+  },
+  "guidance": {
+    "dismiss": "¡Entendido!",
+    "home": {
+      "title": "¡Bienvenido a tu Inicio!",
+      "text": "Este es tu panel de control. Ve tu próximo partido de un vistazo y usa los botones de abajo para encontrar rápidamente partidos abiertos, jugadores disponibles o ver tu historial de partidos."
+    },
+    "clubs": {
+      "title": "Encuentra Clubes Cerca de Ti",
+      "text": "Aquí están los clubes cerca de tu ubicación. Haz clic en la estrella de un club para añadirlo a tus favoritos. ¡Recibirás noticias y propuestas de partidos de ellos en tu feed de Inicio!"
+    },
+    "social": {
+      "title": "Conecta con Jugadores",
+      "text": "Gestiona a tus amigos, organízalos en 'Círculos' privados para partidos exclusivos y maneja tus solicitudes de amistad, todo desde esta pestaña."
+    },
+    "tournaments": {
+      "title": "Compite en Torneos",
+      "text": "Aquí puedes encontrar torneos actuales, próximos y pasados. ¡Selecciona uno para ver los detalles, ver el cuadro e inscribirte!"
+    }
+  }
+}
