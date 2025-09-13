@@ -2,6 +2,14 @@
 // Fix: Declare google.maps namespace to fix TypeScript errors related to Google Maps API.
 // Fix: Moved google namespace into declare global to make it accessible across all modules.
 declare global {
+  // Fix: Added ImportMeta interface to provide types for Vite environment variables (e.g., import.meta.env.VITE_GOOGLE_MAPS_API_KEY) and resolve TypeScript errors.
+  interface ImportMetaEnv {
+    readonly VITE_GOOGLE_MAPS_API_KEY: string;
+    readonly VITE_API_KEY: string;
+  }
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }
   namespace google {
     namespace maps {
       // Using 'any' for simplicity as we can't install @types/google.maps

@@ -142,6 +142,25 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     window.Telegram.WebApp.ready();
   }, []);
+  
+  useEffect(() => {
+    // Dynamically load the Google Maps script using the correct Vite environment variable
+    const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    if (googleMapsApiKey && !window.google) {
+      window.initMap = function() {
+        // This callback function is called by the Google Maps script once it's loaded.
+        // We fire a custom event that the React app can listen to.
+        window.dispatchEvent(new CustomEvent('google-maps-loaded'));
+      };
+
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places,geometry&callback=initMap`;
+      script.async = true;
+      document.head.appendChild(script);
+    } else if (!googleMapsApiKey) {
+        console.warn("Google Maps API key is not configured. Map functionality will be disabled.");
+    }
+  }, []);
 
   useEffect(() => {
     // Scroll to top when tab changes
