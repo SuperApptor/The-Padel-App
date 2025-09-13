@@ -144,12 +144,11 @@ const AppContent: React.FC = () => {
   }, []);
   
   useEffect(() => {
-    // Dynamically load the Google Maps script using the correct Vite environment variable
-    const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    // FIX: Check if `import.meta.env` exists before accessing properties to prevent crash
+    const googleMapsApiKey = (import.meta.env && import.meta.env.VITE_GOOGLE_MAPS_API_KEY) ? import.meta.env.VITE_GOOGLE_MAPS_API_KEY : null;
+    
     if (googleMapsApiKey && !window.google) {
       window.initMap = function() {
-        // This callback function is called by the Google Maps script once it's loaded.
-        // We fire a custom event that the React app can listen to.
         window.dispatchEvent(new CustomEvent('google-maps-loaded'));
       };
 
@@ -158,7 +157,7 @@ const AppContent: React.FC = () => {
       script.async = true;
       document.head.appendChild(script);
     } else if (!googleMapsApiKey) {
-        console.warn("Google Maps API key is not configured. Map functionality will be disabled.");
+        console.warn("Google Maps API key is not configured or available. Map functionality will be disabled.");
     }
   }, []);
 

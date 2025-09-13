@@ -2,9 +2,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { PlayerProfile } from '../types';
 
-// Use Vite's method for accessing environment variables on the client-side.
-// The variable MUST be prefixed with VITE_ in your .env file or hosting provider's settings.
-const apiKey = import.meta.env.VITE_API_KEY;
+// FIX: Safely access environment variables to prevent crashing if they are not defined.
+const apiKey = (typeof import.meta.env !== 'undefined' && import.meta.env.VITE_API_KEY) ? import.meta.env.VITE_API_KEY : "";
 
 if (!apiKey) {
     console.error("VITE_API_KEY is not defined. Please set it in your environment variables on Vercel.");
@@ -12,7 +11,7 @@ if (!apiKey) {
 
 // Initialize with the key (or an empty string to prevent crashing if missing).
 // API calls will fail without a valid key, but the app itself will load.
-const ai = new GoogleGenAI({ apiKey: apiKey || "" });
+const ai = new GoogleGenAI({ apiKey: apiKey });
 
 export async function generateMatchDescription(profile: PlayerProfile, city: string, levelRange: string, playersNeeded: number): Promise<string> {
   const prompt = `
