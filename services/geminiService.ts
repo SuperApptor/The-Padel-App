@@ -2,11 +2,11 @@
 import { GoogleGenAI } from "@google/genai";
 import { PlayerProfile } from '../types';
 
-// La clé API pour Gemini doit être placée ici.
-const geminiApiKey = 'AIzaSyDHF4a5FHuO5fFomaTTmye_7B8gXw_g5fo';
+// La clé API est maintenant récupérée depuis les variables d'environnement, ce qui est sécurisé.
+const geminiApiKey = process.env.API_KEY;
 
 if (!geminiApiKey) {
-  throw new Error("La clé API Gemini n'est pas configurée.");
+  throw new Error("La clé API Gemini n'est pas configurée dans les variables d'environnement.");
 }
 
 const ai = new GoogleGenAI({ apiKey: geminiApiKey });
