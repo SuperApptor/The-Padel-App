@@ -1,5 +1,4 @@
-
-
+/** @jsxRuntime classic */
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { Match, PlayerProfile, CompletedMatch, Opponent, PlayerAvailability, SuggestedPlayer, Toast, PlayerCircle, Club, ClubAnnouncement, Tournament, TournamentCategory, RegistrationStatus, TournamentRegistration, BracketMatch, TournamentTeam, TournamentStatus, MatchFormatConfiguration, Notification, NotificationType, Gender, Handedness, Side, OrganizerStatus, MainTab, MatchType } from './types';
 import Header from './components/Header';
