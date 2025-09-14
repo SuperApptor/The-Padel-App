@@ -143,8 +143,8 @@ const AppContent: React.FC = () => {
   }, []);
   
   useEffect(() => {
-    // FIX: Check if `import.meta.env` exists before accessing properties to prevent crash
-    const googleMapsApiKey = (import.meta.env && import.meta.env.VITE_GOOGLE_MAPS_API_KEY) ? import.meta.env.VITE_GOOGLE_MAPS_API_KEY : null;
+    // FIX: Safely access environment variables to prevent crashing if they are not defined.
+    const googleMapsApiKey = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_GOOGLE_MAPS_API_KEY) ? import.meta.env.VITE_GOOGLE_MAPS_API_KEY : null;
     
     if (googleMapsApiKey && !window.google) {
       window.initMap = function() {

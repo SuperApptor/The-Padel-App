@@ -1,9 +1,10 @@
 
+
 import { GoogleGenAI } from "@google/genai";
 import { PlayerProfile } from '../types';
 
 // FIX: Safely access environment variables to prevent crashing if they are not defined.
-const apiKey = (typeof import.meta.env !== 'undefined' && import.meta.env.VITE_API_KEY) ? import.meta.env.VITE_API_KEY : "";
+const apiKey = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_KEY) ? import.meta.env.VITE_API_KEY : "";
 
 if (!apiKey) {
     console.error("VITE_API_KEY is not defined. Please set it in your environment variables on Vercel.");
