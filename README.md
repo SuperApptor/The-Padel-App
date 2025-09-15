@@ -1,20 +1,15 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Padel Partner
 
-# Run and deploy your AI Studio app
+**Trouvez votre partenaire de Padel idéal !**
 
-This contains everything you need to run your app locally.
+Padel Partner est une application conçue pour vous mettre en relation avec des joueurs de votre ville et de votre niveau.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1sVNEWJG0jNW26qFyr_tX22tbz5DMn7Qe
+## Fonctionnalités
 
-## Run Locally
+-   **Création de Matchs :** Organisez des matchs et trouvez des joueurs pour compléter vos parties.
+-   **Recherche de Clubs :** Trouvez et ajoutez des clubs de padel à vos favoris.
+-   **Social :** Connectez-vous avec d'autres joueurs, créez des cercles d'amis et gérez vos contacts.
+-   **Tournois :** Participez à des tournois locaux et suivez votre progression.
+-   **Profil Personnalisé :** Gérez votre profil, votre niveau et vos disponibilités.
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Cette application est conçue pour être utilisée au sein de l'écosystème Telegram.
