@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { Match, PlayerProfile, CompletedMatch, Opponent, PlayerAvailability, SuggestedPlayer, Toast, PlayerCircle, Club, ClubAnnouncement, Tournament, TournamentCategory, RegistrationStatus, TournamentRegistration, BracketMatch, TournamentTeam, TournamentStatus, MatchFormatConfiguration, Notification, NotificationType, Gender, Handedness, Side, OrganizerStatus, MainTab, MatchType } from './types';
+import { Match, PlayerProfile, CompletedMatch, Toast, PlayerCircle, Club, Tournament, Notification, MainTab, MatchType, Gender, Handedness, Side, SuggestedPlayer, BracketMatch, TournamentCategory } from './types';
 import Header from './components/Header';
 import MatchList from './components/MatchList';
 import MatchHistory from './components/MatchHistory';
 import RecordScoreModal from './components/RecordScoreModal';
-import { INITIAL_MATCHES, USER_PROFILE, INITIAL_HISTORY, INITIAL_AVAILABILITIES, ALL_PLAYERS, INITIAL_CLUBS, INITIAL_TOURNAMENTS, DEFAULT_MATCH_FORMAT, INITIAL_NOTIFICATIONS } from './constants';
 import CreateMatchModal from './components/CreateMatchModal';
 import InvitePlayersModal from './components/InvitePlayersModal';
 import ToastComponent from './components/Toast';
@@ -21,7 +20,6 @@ import CreateTournamentModal from './components/CreateTournamentModal';
 import TournamentDetailModal from './components/TournamentDetailModal';
 import RegisterTournamentModal from './components/RegisterTournamentModal';
 import FindPartnerModal from './components/FindPartnerModal';
-import { generateBracket } from './utils/tournamentUtils';
 import TournamentScoreModal from './components/TournamentScoreModal';
 import HomeTab from './components/HomeTab';
 import BottomNavBar from './components/BottomNavBar';
@@ -33,6 +31,8 @@ import SuperAdminModal from './components/SuperAdminModal';
 import OnboardingModal from './components/OnboardingModal';
 import { TelegramIcon } from './components/icons/TelegramIcon';
 import AdminEditProfileModal from './components/AdminEditProfileModal';
+import * as api from './services/apiService';
+import { SpinnerIcon } from './components/icons/SpinnerIcon';
 
 const ContactAdminModal: React.FC<{
     onClose: () => void;
@@ -70,37 +70,19 @@ const ContactAdminModal: React.FC<{
 type View = 'main' | 'upcoming_matches' | 'open_matches' | 'available_players' | 'match_history' | 'notifications';
 type SocialSubTab = 'friends' | 'circles' | 'requests' | 'add';
 
-const usePersistentState = <T,>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] => {
-    const [state, setState] = useState<T>(() => {
-        try {
-            const item = window.localStorage.getItem(key);
-            return item ? JSON.parse(item) : initialValue;
-        } catch (error) {
-            console.warn(`Error reading localStorage key “${key}”:`, error);
-            return initialValue;
-        }
-    });
-
-    useEffect(() => {
-        try {
-            window.localStorage.setItem(key, JSON.stringify(state));
-        } catch (error) {
-            console.warn(`Error setting localStorage key “${key}”:`, error);
-        }
-    }, [key, state]);
-
-    return [state, setState];
-};
-
 const AppContent: React.FC = () => {
   const { t } = useI18n();
-  const [userProfile, setUserProfile] = usePersistentState<PlayerProfile>('userProfile', USER_PROFILE);
-  const [allPlayers, setAllPlayers] = usePersistentState<PlayerProfile[]>('allPlayers', ALL_PLAYERS);
-  const [allMatches, setAllMatches] = usePersistentState<Match[]>('allMatches', INITIAL_MATCHES);
-  const [matchHistory, setMatchHistory] = usePersistentState<CompletedMatch[]>('matchHistory', INITIAL_HISTORY);
-  const [clubs, setClubs] = usePersistentState<Club[]>('clubs', INITIAL_CLUBS);
-  const [tournaments, setTournaments] = usePersistentState<Tournament[]>('tournaments', INITIAL_TOURNAMENTS);
-  const [notifications, setNotifications] = usePersistentState<Notification[]>('notifications', INITIAL_NOTIFICATIONS);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // States for data
+  const [userProfile, setUserProfile] = useState<PlayerProfile | null>(null);
+  const [allPlayers, setAllPlayers] = useState<PlayerProfile[]>([]);
+  const [allMatches, setAllMatches] = useState<Match[]>([]);
+  const [matchHistory, setMatchHistory] = useState<CompletedMatch[]>([]);
+  const [clubs, setClubs] = useState<Club[]>([]);
+  const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [availabilities, setAvailabilities] = useState<any[]>([]);
 
   const [toast, setToast] = useState<Toast | null>(null);
   const [activeTab, setActiveTab] = useState<MainTab>('home');
@@ -142,25 +124,58 @@ const AppContent: React.FC = () => {
   }, []);
   
   useEffect(() => {
-    // FIX: Safely access environment variables to prevent crashing if they are not defined.
-    const googleMapsApiKey = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_GOOGLE_MAPS_API_KEY) ? import.meta.env.VITE_GOOGLE_MAPS_API_KEY : null;
+    const googleMapsApiKey = (typeof import.meta !== 'undefined' && import.meta.env) ? import.meta.env.VITE_GOOGLE_MAPS_API_KEY : null;
     
     if (googleMapsApiKey && !window.google) {
       window.initMap = function() {
         window.dispatchEvent(new CustomEvent('google-maps-loaded'));
       };
-
       const script = document.createElement('script');
       script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places,geometry&callback=initMap`;
       script.async = true;
       document.head.appendChild(script);
     } else if (!googleMapsApiKey) {
-        console.warn("Google Maps API key is not configured or available. Map functionality will be disabled.");
+        console.warn("Google Maps API key is not configured. Map functionality will be disabled.");
     }
   }, []);
 
   useEffect(() => {
-    // Scroll to top when tab changes
+    const loadInitialData = async () => {
+        setIsLoading(true);
+        try {
+            const [
+                profile, players, matches, history, initialClubs,
+                initialTournaments, initialNotifications, initialAvailabilities
+            ] = await Promise.all([
+                api.getUserProfile(),
+                api.getAllPlayers(),
+                api.getMatches(),
+                api.getMatchHistory(),
+                api.getClubs(),
+                api.getTournaments(),
+                api.getNotifications(),
+                api.getAvailabilities()
+            ]);
+            setUserProfile(profile);
+            setAllPlayers(players);
+            setAllMatches(matches);
+            setMatchHistory(history);
+            setClubs(initialClubs);
+            setTournaments(initialTournaments);
+            setNotifications(initialNotifications);
+            setAvailabilities(initialAvailabilities);
+        } catch (error) {
+            console.error("Failed to load initial data:", error);
+            showToast("Error loading application data.", 'error');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    loadInitialData();
+  }, []);
+
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [activeTab]);
 
@@ -168,203 +183,107 @@ const AppContent: React.FC = () => {
     setToast({ message, type });
   }, []);
 
-  const handleCompleteOnboarding = useCallback((profileData: Omit<PlayerProfile, 'telegram' | 'avatarUrl' | 'circles' | 'friends' | 'friendRequests' | 'sentFriendRequests' | 'favoriteClubIds' | 'isOnboardingComplete'>) => {
-    const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    const isSuperAdmin = tgUser?.username === 'PadelPartner';
-
-    const newUserProfile: PlayerProfile = {
-      telegram: tgUser?.username || `user${tgUser?.id}`,
-      avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.name)}&background=random`,
-      circles: [],
-      friends: [],
-      friendRequests: [],
-      sentFriendRequests: [],
-      ...profileData,
-      isSuperAdmin: isSuperAdmin,
-      isOnboardingComplete: true,
-      favoriteClubIds: [],
-    };
-    setUserProfile(newUserProfile);
-    setAllPlayers(prev => [...prev.filter(p => p.telegram !== USER_PROFILE.telegram), newUserProfile]);
-    showToast(t('toasts.onboardingComplete'));
-  }, [setUserProfile, setAllPlayers, showToast, t]);
-
-  const handleSaveProfile = useCallback((updatedProfile: PlayerProfile) => {
+  const handleCompleteOnboarding = useCallback(async (profileData: Omit<PlayerProfile, 'telegram' | 'avatarUrl' | 'circles' | 'friends' | 'friendRequests' | 'sentFriendRequests' | 'favoriteClubIds' | 'isOnboardingComplete'>) => {
+    const updatedProfile = await api.updateUserProfile(profileData);
     setUserProfile(updatedProfile);
-    setAllPlayers(prev => prev.map(p => p.telegram === updatedProfile.telegram ? updatedProfile : p));
-    showToast(t('toasts.profileUpdated'));
-  }, [setUserProfile, setAllPlayers, showToast, t]);
+    setAllPlayers(prev => [...prev.filter(p => p.telegram !== updatedProfile.telegram), updatedProfile]);
+    showToast(t('toasts.onboardingComplete'));
+  }, [showToast, t]);
 
-  const handleToggleFavoriteClub = useCallback((clubId: number) => {
-    setUserProfile(prev => {
-        const isFavorite = prev.favoriteClubIds.includes(clubId);
-        const club = clubs.find(c => c.id === clubId);
-        if (isFavorite) {
-            showToast(t('toasts.favoriteRemoved', { clubName: club?.name }));
-            return { ...prev, favoriteClubIds: prev.favoriteClubIds.filter(id => id !== clubId) };
-        } else {
-            showToast(t('toasts.favoriteAdded', { clubName: club?.name }));
-            return { ...prev, favoriteClubIds: [...prev.favoriteClubIds, clubId] };
-        }
-    });
-  }, [setUserProfile, showToast, t, clubs]);
+  const handleSaveProfile = useCallback(async (updatedProfile: PlayerProfile) => {
+    const savedProfile = await api.updateUserProfile(updatedProfile);
+    setUserProfile(savedProfile);
+    setAllPlayers(prev => prev.map(p => p.telegram === savedProfile.telegram ? savedProfile : p));
+    showToast(t('toasts.profileUpdated'));
+  }, [showToast, t]);
+
+  const handleToggleFavoriteClub = useCallback(async (clubId: number) => {
+    if (!userProfile) return;
+    const isFavorite = userProfile.favoriteClubIds.includes(clubId);
+    const updatedProfile = await api.toggleFavoriteClub(userProfile.telegram, clubId);
+    setUserProfile(updatedProfile);
+    
+    const club = clubs.find(c => c.id === clubId);
+    showToast(isFavorite ? t('toasts.favoriteRemoved', { clubName: club?.name }) : t('toasts.favoriteAdded', { clubName: club?.name }), 'success');
+  }, [userProfile, showToast, t, clubs]);
   
-  const handleSaveClub = useCallback((updatedClub: Club) => {
-    setClubs(prev => prev.map(c => c.id === updatedClub.id ? updatedClub : c));
-    showToast(t('toasts.clubUpdated', {clubName: updatedClub.name}));
+  const handleSaveClub = useCallback(async (updatedClub: Club) => {
+    const savedClub = await api.updateClub(updatedClub);
+    setClubs(prev => prev.map(c => c.id === savedClub.id ? savedClub : c));
+    showToast(t('toasts.clubUpdated', {clubName: savedClub.name}));
   }, [setClubs, showToast, t]);
 
   const handleAddMatch = useCallback(async (matchData: Omit<Match, 'id' | 'participants' | 'description' | 'format' | 'status' | 'duration'>, invitedPlayers: SuggestedPlayer[]) => {
-    const club = clubs.find(c => c.id === matchData.clubId);
-    if (!club) return "Club not found";
+    if(!userProfile) return "User not found";
 
-    const newMatch: Match = {
-      ...matchData,
-      id: Date.now(),
-      participants: [userProfile],
-      description: '', // Will be generated
-      status: 'PLANNED',
-      duration: 90,
-      invitedPlayerIds: invitedPlayers.map(p => p.profile.telegram),
-    };
-    setAllMatches(prev => [...prev, newMatch]);
+    const createdMatch = await api.createMatch(matchData, userProfile, invitedPlayers);
+    setAllMatches(prev => [...prev, createdMatch]);
+    
     showToast(t('toasts.matchCreated'));
-    setSelectedMatch(newMatch);
+    setSelectedMatch(createdMatch);
     setIsCreateMatchModalOpen(false);
     setIsMatchDetailModalOpen(true);
     return null;
-  }, [clubs, userProfile, setAllMatches, showToast, t]);
+  }, [userProfile, showToast, t]);
 
-  const handleAddPlayerToMatch = useCallback((playerData: PlayerProfile | { name: string, level: number }, matchId: number, slotIndex: number) => {
-    const isGuest = !('telegram' in playerData);
-    let playerProfile: PlayerProfile;
-    if (isGuest) {
-      const guestName = playerData.name;
-       playerProfile = { 
-          name: guestName, 
-          level: playerData.level, 
-          telegram: `guest_${Date.now()}`,
-          email: `${guestName.replace(' ', '.')}@guest.com`,
-          avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(guestName)}&background=random`,
-          birthDate: '1990-01-01',
-          gender: Gender.MALE,
-          handedness: Handedness.RIGHT,
-          side: Side.BOTH,
-          favoriteClubIds: [], circles: [], friends: [], friendRequests: [], sentFriendRequests: [],
-          isOnboardingComplete: false,
-        };
-    } else {
-      playerProfile = playerData;
-    }
-    
-
-    setAllMatches(prev => prev.map(m => {
-      if (m.id === matchId) {
-        const newParticipants = [...m.participants];
-        while (newParticipants.length <= slotIndex) {
-          newParticipants.push(null);
-        }
-        newParticipants[slotIndex] = playerProfile;
-        return { ...m, participants: newParticipants };
-      }
-      return m;
-    }));
+  const handleAddPlayerToMatch = useCallback(async (playerData: PlayerProfile | { name: string, level: number }, matchId: number, slotIndex: number) => {
+    const updatedMatch = await api.addPlayerToMatch(playerData, matchId, slotIndex);
+    setAllMatches(prev => prev.map(m => m.id === matchId ? updatedMatch : m));
     setIsAddPlayerModalOpen(false);
-    showToast(t('toasts.playerAdded', { playerName: playerProfile.name }));
+    showToast(t('toasts.playerAdded', { playerName: updatedMatch.participants[slotIndex]?.name || 'Guest' }));
   }, [setAllMatches, showToast, t]);
 
-  const handleCancelMatch = useCallback((matchId: number) => {
-    setAllMatches(prev => prev.map(m => m.id === matchId ? {...m, status: 'CANCELED'} : m));
+  const handleCancelMatch = useCallback(async (matchId: number) => {
+    const updatedMatch = await api.cancelMatch(matchId);
+    setAllMatches(prev => prev.map(m => m.id === matchId ? updatedMatch : m));
     showToast(t('toasts.matchCanceled'));
   }, [setAllMatches, showToast, t]);
 
-  const handleRecordScore = useCallback((matchId: number, score: string) => {
-    const matchToRecord = allMatches.find(m => m.id === matchId) as CompletedMatch;
-    if (matchToRecord) {
-        setAllMatches(prev => prev.filter(m => m.id !== matchId));
-        setMatchHistory(prev => [{ ...matchToRecord, score, result: 'VICTORY' }, ...prev]);
-        setIsRecordScoreModalOpen(false);
-    }
-  }, [allMatches, setAllMatches, setMatchHistory]);
+  const handleRecordScore = useCallback(async (matchId: number, score: string) => {
+    const { updatedHistory, updatedMatches } = await api.recordScore(matchId, score);
+    setMatchHistory(updatedHistory);
+    setAllMatches(updatedMatches);
+    setIsRecordScoreModalOpen(false);
+  }, []);
 
-  const handleAdminSaveProfile = (updatedProfile: PlayerProfile) => {
-    setAllPlayers(prev => prev.map(p => p.telegram === updatedProfile.telegram ? updatedProfile : p));
-    if(updatedProfile.telegram === userProfile.telegram) {
-        setUserProfile(updatedProfile);
+  const handleAdminSaveProfile = async (updatedProfile: PlayerProfile) => {
+    const savedProfile = await api.updateUserProfile(updatedProfile);
+    setAllPlayers(prev => prev.map(p => p.telegram === savedProfile.telegram ? savedProfile : p));
+    if(userProfile && savedProfile.telegram === userProfile.telegram) {
+        setUserProfile(savedProfile);
     }
-    setAllMatches(prevMatches => prevMatches.map(m => ({
-        ...m,
-        participants: m.participants.map(p => p && p.telegram === updatedProfile.telegram ? updatedProfile : p)
-    })));
-    setMatchHistory(prevHistory => prevHistory.map(m => ({
-        ...m,
-        participants: m.participants.map(p => p && p.telegram === updatedProfile.telegram ? updatedProfile : p)
-    })));
+    const { updatedMatches, updatedHistory } = await api.updateParticipantDetailsInMatches(savedProfile);
+    setAllMatches(updatedMatches);
+    setMatchHistory(updatedHistory);
     setIsAdminEditProfileModalOpen(false);
     showToast(t('toasts.profileUpdated'));
   };
 
-  const handleAddFriend = useCallback((friendId: string) => {
+  const handleAddFriend = useCallback(async (friendId: string) => {
+    if (!userProfile) return;
+    const { updatedProfile, updatedPlayers } = await api.addFriend(userProfile.telegram, friendId);
+    setUserProfile(updatedProfile);
+    setAllPlayers(updatedPlayers);
     const friend = allPlayers.find(p => p.telegram === friendId);
-    if (!friend) return;
+    if(friend) showToast(t('toasts.friendRequestSent', { name: friend.name }));
+  }, [userProfile, allPlayers, showToast, t]);
 
-    const updatedUserProfile = {
-      ...userProfile,
-      sentFriendRequests: [...userProfile.sentFriendRequests, friendId],
-    };
-    setUserProfile(updatedUserProfile);
-    
-    setAllPlayers(prev => prev.map(p => {
-      if (p.telegram === friendId) {
-        return {
-          ...p,
-          friendRequests: [...p.friendRequests, { from: userProfile, status: 'pending' as const }],
-        };
-      }
-      if (p.telegram === userProfile.telegram) {
-        return updatedUserProfile;
-      }
-      return p;
-    }));
-    
-    showToast(t('toasts.friendRequestSent', { name: friend.name }));
-  }, [allPlayers, userProfile, setUserProfile, setAllPlayers, showToast, t]);
-
-  const handleFriendRequest = useCallback((friendId: string, action: 'accept' | 'decline') => {
+  const handleFriendRequest = useCallback(async (friendId: string, action: 'accept' | 'decline') => {
+    if (!userProfile) return;
+    const { updatedProfile, updatedPlayers } = await api.handleFriendRequest(userProfile.telegram, friendId, action);
+    setUserProfile(updatedProfile);
+    setAllPlayers(updatedPlayers);
     const friend = allPlayers.find(p => p.telegram === friendId);
-    if (!friend) return;
-    
-    const updatedUserProfile = {
-      ...userProfile,
-      friendRequests: userProfile.friendRequests.filter(req => req.from.telegram !== friendId),
-    };
+    if(friend) showToast(action === 'accept' ? t('toasts.friendRequestAccepted', { name: friend.name }) : t('toasts.friendRequestDeclined', { name: friend.name }));
+  }, [userProfile, allPlayers, showToast, t]);
 
-    if (action === 'accept') {
-      updatedUserProfile.friends = [...updatedUserProfile.friends, friendId];
-      
-      setAllPlayers(prev => prev.map(p => {
-        if (p.telegram === friendId) {
-          return { ...p, friends: [...p.friends, userProfile.telegram], sentFriendRequests: p.sentFriendRequests.filter(id => id !== userProfile.telegram) };
-        }
-        if (p.telegram === userProfile.telegram) { return updatedUserProfile; }
-        return p;
-      }));
-      showToast(t('toasts.friendRequestAccepted', { name: friend.name }));
-    } else {
-       setAllPlayers(prev => prev.map(p => p.telegram === userProfile.telegram ? updatedUserProfile : p));
-      showToast(t('toasts.friendRequestDeclined', { name: friend.name }));
-    }
-    
-    setUserProfile(updatedUserProfile);
-
-  }, [allPlayers, userProfile, setUserProfile, setAllPlayers, showToast, t]);
-
-  const handleUpdateCircles = useCallback((circles: PlayerCircle[]) => {
-    const updatedUserProfile = { ...userProfile, circles };
-    setUserProfile(updatedUserProfile);
-    setAllPlayers(prev => prev.map(p => p.telegram === userProfile.telegram ? updatedUserProfile : p));
+  const handleUpdateCircles = useCallback(async (circles: PlayerCircle[]) => {
+    if (!userProfile) return;
+    const updatedProfile = await api.updateCircles(userProfile.telegram, circles);
+    setUserProfile(updatedProfile);
+    setAllPlayers(prev => prev.map(p => p.telegram === updatedProfile.telegram ? updatedProfile : p));
     showToast(t('toasts.circlesUpdated'));
-  }, [userProfile, setUserProfile, setAllPlayers, showToast, t]);
+  }, [userProfile, showToast, t]);
 
   const handleOpenFriendProfile = useCallback((player: PlayerProfile) => {
     setSelectedFriend(player);
@@ -374,36 +293,38 @@ const AppContent: React.FC = () => {
   const handleOpenMyProfile = useCallback(() => {
     setIsProfileModalOpen(true);
   }, []);
+  
+  const handleMarkSectionVisited = useCallback((section: MainTab) => {
+    if (!userProfile) return;
+    const updatedProfile = { ...userProfile, visitedSections: { ...userProfile.visitedSections, [section]: true } };
+    setUserProfile(updatedProfile);
+    // This is a UI-only state, can be updated optimistically without a dedicated API call for now
+  }, [userProfile]);
 
-  const myUpcomingMatches = useMemo(() => allMatches.filter(m => m.participants.some(p => p && p.telegram === userProfile.telegram) && new Date(m.matchDate) >= new Date(new Date().setDate(new Date().getDate() - 1)) && m.status === 'PLANNED').sort((a,b) => new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()), [allMatches, userProfile.telegram]);
-  const openMatches = useMemo(() => allMatches.filter(m => m.participants.filter(p => p).length < 4 && !m.participants.some(p => p && p.telegram === userProfile.telegram) && new Date(m.matchDate) >= new Date() && m.status === 'PLANNED').sort((a,b) => new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()), [allMatches, userProfile.telegram]);
+  const handleJoinMatch = useCallback(async (matchId: number, slotIndex: number) => {
+    if (!userProfile) return;
+    const updatedMatch = await api.joinMatch(userProfile, matchId, slotIndex);
+    setAllMatches(prev => prev.map(m => m.id === matchId ? updatedMatch : m));
+    showToast(t('toasts.matchJoined'));
+    setView('main');
+  }, [userProfile, showToast, t]);
+  
+  const myUpcomingMatches = useMemo(() => userProfile ? allMatches.filter(m => m.participants.some(p => p && p.telegram === userProfile.telegram) && new Date(m.matchDate) >= new Date(new Date().setDate(new Date().getDate() - 1)) && m.status === 'PLANNED').sort((a,b) => new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()) : [], [allMatches, userProfile]);
+  const openMatches = useMemo(() => userProfile ? allMatches.filter(m => m.participants.filter(p => p).length < 4 && !m.participants.some(p => p && p.telegram === userProfile.telegram) && new Date(m.matchDate) >= new Date() && m.status === 'PLANNED').sort((a,b) => new Date(a.matchDate).getTime() - new Date(b.matchDate).getTime()) : [], [allMatches, userProfile]);
   const unreadNotifs = notifications.filter(n => !n.read).length;
 
   const handleOpenContactAdminModal = (type: 'organizer' | 'clubAdmin') => {
     setContactAdminType(type);
     setIsContactAdminModalOpen(true);
   }
-  
-  const handleMarkSectionVisited = (section: MainTab) => {
-    setUserProfile(prev => ({
-        ...prev,
-        visitedSections: { ...prev.visitedSections, [section]: true }
-    }));
-  };
 
-  const handleJoinMatch = useCallback((matchId: number, slotIndex: number) => {
-    const matchToJoin = allMatches.find(m => m.id === matchId);
-    if (matchToJoin) {
-        const newParticipants = [...matchToJoin.participants];
-        if (newParticipants[slotIndex] === null) {
-            newParticipants[slotIndex] = userProfile;
-            const updatedMatch = { ...matchToJoin, participants: newParticipants };
-            setAllMatches(prev => prev.map(m => m.id === matchId ? updatedMatch : m));
-            showToast(t('toasts.matchJoined'));
-            setView('main');
-        }
-    }
-  }, [allMatches, userProfile, setAllMatches, showToast, t]);
+  if (isLoading || !userProfile) {
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-[var(--tg-theme-bg-color)]">
+            <SpinnerIcon className="w-10 h-10 text-[var(--tg-theme-button-color)] animate-spin" />
+        </div>
+    );
+  }
 
   if (!userProfile.isOnboardingComplete) {
     return <OnboardingModal onComplete={handleCompleteOnboarding} />;
@@ -426,7 +347,7 @@ const AppContent: React.FC = () => {
             {activeTab === 'home' && <HomeTab userProfile={userProfile} myUpcomingMatches={myUpcomingMatches} openMatches={openMatches} clubs={clubs} tournaments={tournaments} onInvite={m => { setSelectedMatch(m); setIsInviteModalOpen(true); }} onAddFriend={handleAddFriend} onCancelMatch={handleCancelMatch} onSelectClub={c => { setSelectedClub(c); setIsClubDetailModalOpen(true); }} onShowAllUpcoming={() => setView('upcoming_matches')} onShowOpenMatches={() => setView('open_matches')} onShowAvailablePlayers={() => setView('available_players')} onShowMatchHistory={() => setView('match_history')} onAddPlayer={(matchId, slotIndex) => { const match = myUpcomingMatches.find(m => m.id === matchId); if (match) setAddPlayerContext({ match, slotIndex }); setIsAddPlayerModalOpen(true); }} onOpenFriendProfile={handleOpenFriendProfile} onOpenMyProfile={handleOpenMyProfile} onMarkSectionVisited={() => handleMarkSectionVisited('home')} />}
             {activeTab === 'clubs' && <div><ClubTab clubs={clubs} onSelectClub={c => { setSelectedClub(c); setIsClubDetailModalOpen(true); }} userProfile={userProfile} onToggleFavorite={handleToggleFavoriteClub} onMarkSectionVisited={() => handleMarkSectionVisited('clubs')}/></div>}
             {activeTab === 'social' && <div><SocialTab profile={userProfile} allPlayers={allPlayers} activeSocialTab={activeSocialTab} setActiveSocialTab={setActiveSocialTab} onFriendRequest={handleFriendRequest} onUpdateCircles={handleUpdateCircles} onOpenFriendProfile={handleOpenFriendProfile} onAddFriend={handleAddFriend} onMarkSectionVisited={() => handleMarkSectionVisited('social')} /></div>}
-            {activeTab === 'tournaments' && <div><TournamentTab tournaments={tournaments} clubs={clubs} isLoading={false} userProfile={userProfile} onSelectTournament={t => { setSelectedTournament(t); setIsTournamentDetailModalOpen(true); }} onMarkSectionVisited={() => handleMarkSectionVisited('tournaments')} /></div>}
+            {activeTab === 'tournaments' && <div><TournamentTab tournaments={tournaments} clubs={clubs} isLoading={isLoading} userProfile={userProfile} onSelectTournament={t => { setSelectedTournament(t); setIsTournamentDetailModalOpen(true); }} onMarkSectionVisited={() => handleMarkSectionVisited('tournaments')} /></div>}
           </>
         )}
         <div>
@@ -441,10 +362,10 @@ const AppContent: React.FC = () => {
       {isProfileModalOpen && <ProfileModal profile={userProfile} allClubs={clubs} onClose={() => setIsProfileModalOpen(false)} onSave={handleSaveProfile} onOpenContactAdminModal={handleOpenContactAdminModal} onOpenSuperAdminPanel={() => setIsSuperAdminModalOpen(true)} />}
       {isFriendProfileModalOpen && selectedFriend && <FriendProfileModal friend={selectedFriend} allMatches={matchHistory} onClose={() => setIsFriendProfileModalOpen(false)} />}
       {isRecordScoreModalOpen && selectedMatch && <RecordScoreModal match={selectedMatch as CompletedMatch} userProfile={userProfile} onClose={() => setIsRecordScoreModalOpen(false)} onSave={handleRecordScore} clubs={clubs} />}
-      {isCreateMatchModalOpen && <CreateMatchModal profile={userProfile} availabilities={INITIAL_AVAILABILITIES} clubs={clubs} onClose={() => setIsCreateMatchModalOpen(false)} addMatch={handleAddMatch} />}
+      {isCreateMatchModalOpen && <CreateMatchModal profile={userProfile} availabilities={availabilities} clubs={clubs} onClose={() => setIsCreateMatchModalOpen(false)} addMatch={handleAddMatch} />}
       {isClubDetailModalOpen && selectedClub && <ClubDetailModal club={selectedClub} onClose={() => setIsClubDetailModalOpen(false)} isAdmin={userProfile.adminOfClubId === selectedClub.id} onEdit={c => { setSelectedClub(c); setIsClubAdminModalOpen(true); }} />}
       {isClubAdminModalOpen && selectedClub && <ClubAdminModal club={selectedClub} allTournaments={tournaments} onClose={() => setIsClubAdminModalOpen(false)} onSave={handleSaveClub} onPublish={()=>{}} onOpenCreateTournament={() => { setIsClubAdminModalOpen(false); setIsCreateTournamentModalOpen(true); }} />}
-      {isInviteModalOpen && selectedMatch && <InvitePlayersModal match={selectedMatch as Match} availabilities={INITIAL_AVAILABILITIES} onClose={() => setIsInviteModalOpen(false)} onSendInvites={()=>{}} clubs={clubs} userProfile={userProfile} allPlayers={allPlayers} />}
+      {isInviteModalOpen && selectedMatch && <InvitePlayersModal match={selectedMatch as Match} availabilities={availabilities} onClose={() => setIsInviteModalOpen(false)} onSendInvites={()=>{}} clubs={clubs} userProfile={userProfile} allPlayers={allPlayers} />}
       {isTournamentDetailModalOpen && selectedTournament && <TournamentDetailModal tournament={selectedTournament} club={clubs.find(c => c.id === selectedTournament.clubId)} userProfile={userProfile} allPlayers={allPlayers} onClose={() => setIsTournamentDetailModalOpen(false)} onRegisterClick={(t,c) => {setSelectedTournament(t); setSelectedCategory(c); setIsRegisterTournamentModalOpen(true);}} onOpenFindPartnerModal={(t,c) => {setSelectedTournament(t); setSelectedCategory(c); setIsFindPartnerModalOpen(true);}} onGenerateBracket={()=>{}} onRecordScore={()=>{}} onCancelTournament={()=>{}} onForceStartBracket={()=>{}} />}
       {isCreateTournamentModalOpen && <CreateTournamentModal userProfile={userProfile} allClubs={clubs} onClose={() => setIsCreateTournamentModalOpen(false)} onCreate={() => {}} />}
       {isSuperAdminModalOpen && <SuperAdminModal userProfile={userProfile} allPlayers={allPlayers} allClubs={clubs} onClose={() => setIsSuperAdminModalOpen(false)} onApproveOrganizer={()=>{}} onRejectOrganizer={()=>{}} onCreateClub={()=>{}} onAssignAdmin={()=>{}} onOpenAdminEditProfile={p => { setAdminEditingProfile(p); setIsAdminEditProfileModalOpen(true); }} />}

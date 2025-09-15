@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { PlayerProfile, PlayerAvailability, SuggestedPlayer, Match, AvailabilityType, Club, MatchType, Gender } from '../types';
 import { SpinnerIcon } from './icons/SpinnerIcon';
